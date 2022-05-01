@@ -1,8 +1,10 @@
-import { FETCH_POSTS, CREATE_POST, DELETE_POST } from "../actions/constants"
+import { FETCH_ALL, FETCH_POST, CREATE_POST, DELETE_POST } from "../actions/constants"
 
 const postReducer = (state = [], action) => {
     switch (action.type) {
-        case FETCH_POSTS:
+        case FETCH_ALL:
+            return action.payload;
+        case FETCH_POST:
             return state;
         case CREATE_POST:
             return state;
