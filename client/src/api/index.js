@@ -2,6 +2,6 @@ import axios from "axios";
 
 let url = "http://localhost:8000/posts";
 
-const fetchPosts = () => axios.get(url);
+export const fetchPosts = () => axios.get(url);
 
-export { fetchPosts };
+export const createPost = (newPost) => axios.post(url, newPost)
