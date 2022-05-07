@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 
 import postRouter from "./router/posts.js";
+import config from "./config.js";
 
 
 
@@ -18,9 +19,14 @@ app.use("/posts", postRouter);
 
 const db_user = process.env.DBUSER;
 const db_password = process.env.PASSWORD;
-const CONNECTION_URL = `mongodb+srv://${db_user}:${db_password}@cluster0.cfumo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-const PORT = process.env.PORT || 8000;
+
+// **** ---- ATLAS-REMOTE ---- **** 
+// const CONNECTION_URL = `mongodb+srv://${db_user}:${db_password}@cluster0.cfumo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 // console.log("Connection url => ", CONNECTION_URL, PORT);
+// **** ---- ATLAS-REMOTE ---- **** 
+
+const CONNECTION_URL = config.mongoLocalUrl;
+const PORT = process.env.PORT || 8000;
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
