@@ -1,20 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, Paper, Button, TextField, Input } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
-import { useDispatch, useDsipatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useStyles from "./styles";
-import { createPost } from "../../actions/posts";
+import { createPost, updatePost } from "../../actions/posts";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const [postData, setPostData] = useState({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
+
+    const dispatch = useDispatch();
+    const post = useSelector((state) => currentId ? state.posts.find((post) => post._id === currentId) : null);
+    console.log("currentPost -> ", post);
+
+    useEffect(() => {
+        if (post) setPostData(post);
+    }, [post]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createPost(postData));
+        if (currentId != null) {
+            dispatch(updatePost(currentId, postData));
+        } else {
+            dispatch(createPost(postData));
+        }
+        clear();
     };
     const clear = () => {
         setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
+        setCurrentId(null);
     }
 
     return (
@@ -23,7 +37,7 @@ const Form = () => {
                 noValidate
                 className={`${classes.root} ${classes.form}`}
                 onSubmit={handleSubmit}>
-                <Typography variant="h6">Creating a memory</Typography>
+                <Typography variant="h6">{currentId ? "Updaiting" : "Creating"} a memory</Typography>
                 <TextField
                     name="creator"
                     variant="outlined"

@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE_POST } from "./constants";
+import { FETCH_ALL, CREATE_POST, UPDATE_POST } from "./constants";
 import * as api from "../api";
 
 
@@ -29,5 +29,19 @@ export const createPost = (newPost) => async (dispatch) => {
         dispatch(action);
     } catch (error) {
         console.log("Error while creating a post ", error);
+    }
+}
+
+export const updatePost = (postId, post) => async (dispatch) => {
+    console.log("inside update post ", postId);
+    try {
+        const { data } = await api.updatePost(postId, post);
+        const action = {
+            type: UPDATE_POST,
+            payload: data
+        }
+        dispatch(action);
+    } catch (err) {
+        console.log("Failed while updating post", err.message);
     }
 }
