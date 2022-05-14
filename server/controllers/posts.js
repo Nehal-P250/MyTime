@@ -47,3 +47,17 @@ export const deletePost = async (req, res) => {
     console.log("deletePost response from mongoose ");
     res.json({ message: "Post Deleted sucessfully" });
 }
+
+export const likePost = async (req, res) => {
+    const { id: _id } = req.params;
+    //TODO: currently simply increments the like count 
+    // make it work ( one like per account + toggle to make it like, not Like)
+    console.log("updating like count for ID ", _id);
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+        res.status(400).send("Invalid Object ID!");
+    }
+    const post = await PostMessage.findById(_id);
+    const updatedPost = await PostMessage.findByIdAndUpdate(_id, { likeCount: post.likeCount + 1 }, { new: true });
+    console.log("Update post = ", updatedPost);
+    res.json(updatedPost);
+}
