@@ -33,6 +33,17 @@ export const updatePost = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(_id)) {
         return res.status(400).send("Invalid Object ID");
     }
-    const updaptedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true });
-    res.json(updaptedPost);
+    const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true });
+    res.json(updatedPost);
+}
+
+export const deletePost = async (req, res) => {
+    const { id: _id } = req.params;
+    console.log("delete post by ID controller id -> ", _id);
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+        return res.status(400).send("Invalid Object ID");
+    }
+    await PostMessage.findByIdAndDelete(_id);
+    console.log("deletePost response from mongoose ");
+    res.json({ message: "Post Deleted sucessfully" });
 }
