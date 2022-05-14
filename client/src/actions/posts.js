@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE_POST, UPDATE_POST, DELETE_POST } from "./constants";
+import { FETCH_ALL, CREATE_POST, UPDATE_POST, DELETE_POST, LIKE_POST } from "./constants";
 import * as api from "../api";
 
 
@@ -59,4 +59,18 @@ export const deletePost = (postId) => async (dispatch) => {
         console.log("Error while deleting given post ", err);
     }
 
+}
+
+export const likePost = (postId) => async (dispatch) => {
+    console.log("Updating like count for post with ID ", postId);
+    try {
+        const { data } = await api.likePost(postId);
+        const action = {
+            type: LIKE_POST,
+            payload: data
+        }
+        dispatch(action);
+    } catch (err) {
+        console.log("Failed to like the post!");
+    }
 }
