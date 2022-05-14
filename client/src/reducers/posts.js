@@ -11,7 +11,8 @@ const postReducer = (state = [], action) => {
         case UPDATE_POST:
             return state.map((post) => post._id === action.payload._id ? action.payload : post);
         case DELETE_POST:
-            return state;
+            const postId = action.payload.postId;
+            return state.filter((post) => post._id != postId)
         default:
             return state;
     }

@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE_POST, UPDATE_POST } from "./constants";
+import { FETCH_ALL, CREATE_POST, UPDATE_POST, DELETE_POST } from "./constants";
 import * as api from "../api";
 
 
@@ -44,4 +44,19 @@ export const updatePost = (postId, post) => async (dispatch) => {
     } catch (err) {
         console.log("Failed while updating post", err.message);
     }
+}
+
+export const deletePost = (postId) => async (dispatch) => {
+    console.log("deleting a post with id ", postId);
+    try {
+        const deletePostResponse = await api.deletePost(postId);
+        const action = {
+            type: DELETE_POST,
+            payload: { postId }
+        }
+        dispatch(action);
+    } catch (err) {
+        console.log("Error while deleting given post ", err);
+    }
+
 }
